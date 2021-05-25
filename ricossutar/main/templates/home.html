@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class='flex_container'>
     <div class='left_box'>
@@ -12,7 +13,7 @@
         </div>
     </div>
     <div class='right_box'>
-        코인노래방<br/>
+        <img class='coin_logo'src="{% static 'img/coin_logo_thin.svg' %}"/><br/>
         <label for="name">닉네임</label>
         <input type="text" id="name" name="name" required size="10">
         <br/>
