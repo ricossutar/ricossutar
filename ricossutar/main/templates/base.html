@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ricossutar</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body>
+    <div class="nav">
+        <h1>Ricossutar</h1>
+    </div>
+    <div class="main_container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div class="footer">
+        ⓒ 2014. ricossutar all rights reserved.<br/>
+        Soongsil Univ.<br/>
+        Project Team Ricossutar 안종훈 이종근 최다인
+    </div>
+</body>
+</html>

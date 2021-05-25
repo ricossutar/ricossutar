@@ -6,9 +6,20 @@ import threading
 
 
 def home(request):
-    context = {}
-
+    numbers = range(1, 13)
+    context = {'numbers': numbers}
     return render(request, "home.html", context)
+
+
+def room(request,):
+    url_list = [
+        'https://www.youtube.com/watch?v=2UaChDjI7l4',
+        'https://www.youtube.com/watch?v=lF8pdmJYWmk'
+    ]
+    context = {'url_list': url_list}
+
+    return render(request, "room.html", context)
+
 
 class VideoCamera(object):
     def __init__(self):

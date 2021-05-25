@@ -1,25 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Video Test</h1>
-    <table>
-        <tr>
-            <td width="58%">
-                여기에 영상 나와
-            </td>
-            <td width="58%">
-                영상
-                <img src="http://127.0.0.1:8000/main" style="width:200px;"/>
-            </td>
-        </tr>
-
-    </table>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<div class='flex_container'>
+    <div class='left_box'>
+        <h1>home page</h1>
+        <div class='room_container'>
+            {% for num in numbers %}
+                <div class='room'>
+                    {{num}}번
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class='right_box'>
+        코인노래방<br/>
+        <label for="name">닉네임</label>
+        <input type="text" id="name" name="name" required size="10">
+        <br/>
+        <label for="password">비밀번호</label>
+        <input type="text" id="password" name="password" required size="10">
+        <a href="room">
+            <button>입장하기</button>
+        </a>
+    </div>
+</div>
+{% endblock %}
