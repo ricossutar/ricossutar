@@ -1,27 +1,36 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class='flex_container'>
+<form action="/room/1" method="POST" class='flex_container'>
     <div class='left_box'>
-        <h1>home page</h1>
+        <!-- <h1>Entrance</h1> -->
         <div class='room_container'>
+            {% csrf_token %}
             {% for num in numbers %}
-                <div class='room'>
-                    {{num}}번
-                </div>
+                <input id="choice{{ forloop.counter }}" value="{{num}}" type="radio" name="select">
+                <label for="choice{{ forloop.counter }}" class="room">
+                    <div style="width: 100%;">
+                        <b>{{num}}</b>번방<br/>
+                        <div style="font-size: small;">0/4명</div>
+                    </div>
+                </label>
             {% endfor %}
         </div>
     </div>
     <div class='right_box'>
-        <img class='coin_logo'src="{% static 'img/coin_logo_thin.svg' %}"/><br/>
-        <label for="name">닉네임</label>
-        <input type="text" id="name" name="name" required size="10">
-        <br/>
-        <label for="password">비밀번호</label>
-        <input type="text" id="password" name="password" required size="10">
-        <a href="room">
-            <button>입장하기</button>
-        </a>
+        <img class='coin_logo'src="{% static 'img/coin_logo_thin.svg' %}"/>
+        <div style="width: 100%;">
+            <label class='label' for="name">닉네임</label>
+            <input type="text" id="name" name="name" required size="10">
+        </div>
+        <div style="width: 100%;">
+            <label class='label' for="password">비밀번호</label>
+            <input type="text" id="password" name="password" required size="10">
+        </div>
+        <input id='enter' type="submit" value="입장하기" />
+        <!-- <a href="room/0">
+            <button id='enter'><b>입장하기</b></button>
+        </a> -->
     </div>
-</div>
+</form>
 {% endblock %}

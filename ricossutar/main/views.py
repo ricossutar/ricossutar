@@ -8,15 +8,16 @@ import threading
 def home(request):
     numbers = range(1, 13)
     context = {'numbers': numbers}
+    room_num = request.POST.getlist('option[]')
     return render(request, "home.html", context)
 
 
-def room(request,):
+def room(request, room_num):
     url_list = [
         'https://www.youtube.com/watch?v=2UaChDjI7l4',
         'https://www.youtube.com/watch?v=lF8pdmJYWmk'
     ]
-    context = {'url_list': url_list}
+    context = {'room_num': room_num, 'url_list': url_list}
 
     return render(request, "room.html", context)
 
