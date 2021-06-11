@@ -15,36 +15,74 @@
             <img class='logo'src="/demos/logo.png"/>
         </a>
     </div> 
-
     <div class="main_container">
-        <div class='flex_container'>
+        <div class='flex_container' id="main_room">
+            <div class='left_box'>
+                <h1>home page</h1>
+                <div class='room_container'>
+                    <div class='room_button' id="ricossu1">
+                        1번
+                    </div>
+                    <div class='room_button' id="ricossu2">
+                        2번
+                    </div>
+                    <div class='room_button' id="ricossu3">
+                        3번
+                    </div>
+                    <div class='room_button' id="ricossu4">
+                        4번
+                    </div>
+                    <div class='room_button' id="ricossu5">
+                        5번
+                    </div>
+                    <div class='room_button' id="ricossu6">
+                        6번
+                    </div>
+                    <div class='room_button' id="ricossu7">
+                        7번
+                    </div>
+                    <div class='room_button' id="ricossu8">
+                        8번
+                    </div>
+                </div>
+            </div>
+            <div class='right_box'>
+                <img class='coin_logo'src="/demos/coin_logo_thin.png"/><br/>
+                <label for="name">닉네임</label>
+                <input type="text" id="name" name="name" required size="10">
+                <br/>
+                <label for="password">비밀번호</label>
+                <input type="text" id="password" name="password" required size="10">
+                <a href="room">
+                    <button>입장하기</button>
+                </a>
+            </div>
+        </div>
+        <div class='flex_container' id=karaoke_room style="display:none">
             <div class='left_box'>
                 <div id="videos-container" style="margin: 20px 0;"></div>
             </div>
             <div class='right_box'>
                 <img class='coin_logo'src="/demos/coin_logo_thin.png"/>
-                1번방
+                <div id='num_container'>
+                    번방
+                </div>
+                <div id="conversation-panel"></div>
                 <div style="width: 100%; display: flex;">
-                    <input type="text" id="url" name="url" required size="10">
-                    <button style="width: 50px;">예약</button>
+                    <textarea id="txt-chat-message" onkeypress="onTestChange();"></textarea>
+                    <button class="btn btn-primary" id="btn-chat-message" style="width: 50px;">예약</button>
                 </div>
                 <div>예약목록</div>
-                <!-- {% for url in url_list %} -->
-                    <div>
-                        <!-- {{url}}<button id='delete'><b>X</b></button><br> -->
+                    <div style="display: none;">
                         <button id='delete'><b>X</b></button><br>
                         <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
                         <button id="open-room">Open Room</button>
                         <button id="join-room">Join Room</button>
                         <button id="open-or-join-room">Auto Open Or Join Room</button> 
-                </div>
-                <!-- {% endfor %} -->
+                    </div>
                 <a href="/">
                     <button id='enter'>나가기</button>
                 </a>
-                <div id="conversation-panel"></div>
-                <textarea id="txt-chat-message"></textarea>
-                <button class="btn btn-primary" id="btn-chat-message">Send</button>                
             </div>
         </div>
     </div>
@@ -76,6 +114,55 @@
 // ......................................................
 // .......................UI Code........................
 // ......................................................
+
+var photo = document.getElementsByClassName("room_button");
+var cur_room_num = 0;
+
+for (var i=0; i < photo.length; i++) {
+    photo[i].onclick = function() {
+    document.getElementById("main_room").style.display = "none"; 
+    document.getElementById("karaoke_room").style.display = "block";
+
+    disableInputButtons();
+    connection.checkPresence(event.target.id, function(isRoomExist, roomid) {
+        if (isRoomExist === true) {
+            disableInputButtons();
+            connection.join(roomid, function(isJoinedRoom, roomid, error) {
+              if (error) {
+                    disableInputButtons(true);
+                    if(error === 'Room not available') {
+                      alert('This room does not exist. Please either create it or wait for moderator to enter in the room.');
+                      return;
+                    }
+                    alert(error);
+                }
+            });
+            
+        } else {
+
+            disableInputButtons();
+            connection.session.video = false;
+            connection.session.screen = true;
+            connection.open(roomid, function(isRoomOpened, roomid, error) {
+                if(isRoomOpened === true) {
+                  showRoomURL(connection.sessionid);
+                }
+                else {
+                  disableInputButtons(true);
+                  if(error === 'Room not available') {
+                    alert('Someone already created this room. Please either join or create a separate room.');
+                    return;
+                  }
+                  alert(error);
+                }
+            });
+        }
+    });        
+    cur_room_num = parseInt(event.target.id.substr(7));
+    document.getElementById("num_container").innerText = cur_room_num + "번방" ;
+    }
+};
+    
 document.getElementById('open-room').onclick = function() {
     disableInputButtons();
     connection.session.video = false;
@@ -141,8 +228,20 @@ document.getElementById('btn-chat-message').onclick = function() {
     });
     document.getElementById("txt-chat-message").value = "";
 };
-    
-    
+
+function onTestChange() {
+    var key = window.event.keyCode;
+
+    // If the user has pressed enter
+    if (key === 13) {
+        var chatMessage = document.getElementById("txt-chat-message").value
+        appendChatMessage(chatMessage);
+        connection.send({
+            chatMessage: chatMessage,
+        });
+        document.getElementById("txt-chat-message").value = "";
+    }
+}    
 // ......................................................
 // ..................RTCMultiConnection Code.............
 // ......................................................
