@@ -6,73 +6,112 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="shortcut icon" href="/demos/logo.png">
   <link rel="stylesheet" href="/demos/room_style.css">
-  <link rel="stylesheet" href="/demos/stylesheet.css">
+  <!-- <link rel="stylesheet" href="/demos/stylesheet.css"> -->
   <script src="/demos/menu.js"></script>
 </head>
 <body>
     <div class="nav">
-        <a href="/">
+        <a style='width:fit-content; height:fit-content;' href="/">
             <img class='logo'src="/demos/logo.png"/>
         </a>
     </div> 
     <div class="main_container">
         <div class='flex_container' id="main_room">
             <div class='left_box'>
-                <h1>home page</h1>
                 <div class='room_container'>
                     <div class='room_button' id="ricossu1">
-                        1번
+                        1번방
                     </div>
                     <div class='room_button' id="ricossu2">
-                        2번
+                        2번방
                     </div>
                     <div class='room_button' id="ricossu3">
-                        3번
+                        3번방
                     </div>
                     <div class='room_button' id="ricossu4">
-                        4번
+                        4번방
                     </div>
                     <div class='room_button' id="ricossu5">
-                        5번
+                        5번방
                     </div>
                     <div class='room_button' id="ricossu6">
-                        6번
+                        6번방
                     </div>
                     <div class='room_button' id="ricossu7">
-                        7번
+                        7번방
                     </div>
                     <div class='room_button' id="ricossu8">
-                        8번
+                        8번방
+                    </div>
+					<div class='room_button' id="ricossu9">
+                        9번방
+                    </div>
+					<div class='room_button' id="ricossu10">
+                        10번방
+                    </div>
+					<div class='room_button' id="ricossu11">
+                        11번방
+                    </div>
+					<div class='room_button' id="ricossu12">
+                        12번방
                     </div>
                 </div>
             </div>
             <div class='right_box'>
-                <img class='coin_logo'src="/demos/coin_logo_thin.png"/><br/>
-                <label for="name">닉네임</label>
-                <input type="text" id="name" name="name" required size="10">
-                <br/>
-                <label for="password">비밀번호</label>
-                <input type="text" id="password" name="password" required size="10">
-                <a href="room">
-                    <button>입장하기</button>
-                </a>
+                <img class='coin_logo'src="/demos/coin_logo_thin.png"/>
+                <div id="not_logged">
+                    <div id="login_view">
+                        <label for="email">email</label>
+                        <input type="text" id="login_email" name="email" required size="10">
+                        <label for="password">비밀번호</label>
+                        <input type="password" id="login_password" name="password" required size="10">
+                        <a>
+                            <button id='login_button'>입장하기</button>
+                            <button class='change_attr'>회원가입 창으로</button>
+                        </a>
+                    </div>
+
+                    <div id="register_view", style="display:none">
+                        <label for="email">email</label>
+                        <input type="text" id="register_email" name="email" required size="10">
+                        <label for="name">이름</label>
+                        <input type="text" id="register_name" name="name" required size="10">
+                        <label for="password">비밀번호</label>
+                        <input type="password" id="register_password" name="password" required size="10">
+                        <a>
+                            <button id='register_button'>확인</button>
+                            <button class='change_attr'>로그인 창으로</button>
+                        </a>
+                    </div>                    
+                </div>
+                <div id="logged" style="display:none">
+                    <div class='username_div'>
+                        username_here
+                    </div>
+                </div>
+                
             </div>
         </div>
-        <div class='flex_container' id=karaoke_room style="display:none">
+        <div class='flex_container' id='karaoke_room' style="display:none">
             <div class='left_box'>
                 <div id="videos-container" style="margin: 20px 0;"></div>
             </div>
-            <div class='right_box'>
+            <div class='right_box' id='room-nav'>
                 <img class='coin_logo'src="/demos/coin_logo_thin.png"/>
                 <div id='num_container'>
                     번방
                 </div>
-                <div id="conversation-panel"></div>
-                <div style="width: 100%; display: flex;">
-                    <textarea id="txt-chat-message" onkeypress="onTestChange();"></textarea>
-                    <button class="btn btn-primary" id="btn-chat-message" style="width: 50px;">예약</button>
+                <div class='username_div'>
+                    username_here
                 </div>
                 <div>예약목록</div>
+                <div id='line'></div>
+                <div id="conversation-panel">
+                </div>
+                <div style="width: 100%; display: flex;">
+                    <textarea id="txt-chat-message" placeholder="예약곡을 입력해주세요" onkeypress="onTestChange();"></textarea>
+                    <button class="btn btn-primary" id="btn-chat-message" style="width: 50px;">예약</button>
+                </div>            
                     <div style="display: none;">
                         <button id='delete'><b>X</b></button><br>
                         <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
@@ -81,7 +120,7 @@
                         <button id="open-or-join-room">Auto Open Or Join Room</button> 
                     </div>
                 <a href="/">
-                    <button id='enter'>나가기</button>
+                    <button id='enter1'>나가기</button>
                 </a>
             </div>
         </div>
@@ -94,7 +133,7 @@
         Project Team Ricossutar 안종훈 이종근 최다인
         <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
   <br><br>
-  <label><input type="checkbox" id="record-entire-conference"> Record Entire Conference In The Browser?</label>
+  <label     style="display: none;"><input type="checkbox" id="record-entire-conference"> Record Entire Conference In The Browser?</label>
   <span id="recording-status" style="display: none;"></span>
   <button id="btn-stop-recording" style="display: none;">Stop Recording</button>
         
@@ -114,14 +153,127 @@
 // ......................................................
 // .......................UI Code........................
 // ......................................................
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+    
+var is_register = false;
+var is_logged_in = false;
+var my_name = '';
+var change_arr = document.getElementsByClassName("change_attr");
+
+for (var i=0; i < change_arr.length; i++) {
+    change_arr[i].onclick = function() {
+        if(is_register == false){
+            is_register = true;
+            document.getElementById("login_view").style.display = "none"; 
+            document.getElementById("register_view").style.display = "block";
+        }
+        else{
+            is_register = false;
+            document.getElementById("login_view").style.display = "block";        
+            document.getElementById("register_view").style.display = "none"; 
+        }
+    }
+}
+    
+login_button.onclick = function(){
+    var csrftoken = getCookie('csrftoken');
+    fetch('https://rico-db.run.goorm.io/login/', {
+        method: 'post',
+         body: new URLSearchParams({
+                csrftoken: csrftoken,
+                email: document.getElementById("login_email").value,
+                 password:document.getElementById("login_password").value
+                })
+            }).then((response) => response.json()).then((data) => {
+        if(data.id == null)
+            alert('잘못된 정보입니다. 다시 시도해주세요')
+        else{
+            is_logged_in = true;
+            console.log(data)
+            my_name = data.name;
+            document.getElementById("not_logged").style.display = "none"; 
+            document.getElementById("logged").style.display = "block"; 
+            var username_arr = document.getElementsByClassName("username_div");
+            for (var i=0; i < username_arr.length; i++) {
+                username_arr[i].innerText = my_name + "님 환영합니다!"; 
+            }
+        }
+    });
+}
+
+register_button.onclick = function(){
+    var csrftoken = getCookie('csrftoken');
+    fetch('https://rico-db.run.goorm.io/register/', {
+         method: 'post',
+         body: new URLSearchParams({
+                     csrftoken:csrftoken, 
+                     email:document.getElementById("register_email").value, 
+                     name:document.getElementById("register_name").value,  
+                     password:document.getElementById("register_password").value
+               })
+            }).then((response) => response.json()).then((data) => {
+        if(data.id == null)
+            alert('잘못된 형식 혹은 이미 존재하는 아이디입니다. 다시 시도해주세요')
+        else{
+            is_logged_in = true;
+            console.log(data)
+            my_name = data.name; 
+            document.getElementById("not_logged").style.display = "none"; 
+            document.getElementById("logged").style.display = "block"; 
+            var username_arr = document.getElementsByClassName("username_div");
+            for (var i=0; i < username_arr.length; i++) {
+                username_arr[i].innerText = my_name + "님 환영합니다!"; 
+            }
+        }
+    });
+}
+
+
+function sendPost(action, params) {
+	var form = document.createElement('form');
+	form.setAttribute('method', 'post');
+	form.setAttribute('action', action);
+	document.charset = "utf-8";
+	for ( var key in params) {
+		var hiddenField = document.createElement('input');
+		hiddenField.setAttribute('type', 'hidden');
+		hiddenField.setAttribute('name', key);
+		hiddenField.setAttribute('value', params[key]);
+		form.appendChild(hiddenField);
+	}
+	document.body.appendChild(form);
+	form.submit(function(event){
+        console.log(event);
+    });
+}
 
 var photo = document.getElementsByClassName("room_button");
 var cur_room_num = 0;
 
 for (var i=0; i < photo.length; i++) {
     photo[i].onclick = function() {
+        if(is_logged_in == false)
+            {
+                alert('로그인 후 이용해주세요');
+                return;
+            }
     document.getElementById("main_room").style.display = "none"; 
-    document.getElementById("karaoke_room").style.display = "block";
+    document.getElementById("karaoke_room").style.display = "flex";
 
     disableInputButtons();
     connection.checkPresence(event.target.id, function(isRoomExist, roomid) {
@@ -222,6 +374,7 @@ function appendChatMessage(received_message) {
     
 document.getElementById('btn-chat-message').onclick = function() {
     var chatMessage = document.getElementById("txt-chat-message").value
+    chatMessage = my_name + " : " + chatMessage
     appendChatMessage(chatMessage);
     connection.send({
         chatMessage: chatMessage,
@@ -235,7 +388,9 @@ function onTestChange() {
     // If the user has pressed enter
     if (key === 13) {
         var chatMessage = document.getElementById("txt-chat-message").value
+        chatMessage = my_name + " : " + chatMessage
         appendChatMessage(chatMessage);
+        chatMessage = my_name + chatMessage
         connection.send({
             chatMessage: chatMessage,
         });
@@ -504,16 +659,16 @@ function showRoomURL(roomid) {
     var roomHashURL = '#' + roomid;
     var roomQueryStringURL = '?roomid=' + roomid;
 
-    var html = '<h2>Unique URL for your room:</h2><br>';
+    var html = '<h2>다음 URL을 공유해서 친구들을 초대해보세요!</h2><br>';
 
     html += 'Hash URL: <a href="' + roomHashURL + '" target="_blank">' + roomHashURL + '</a>';
     html += '<br>';
     html += 'QueryString URL: <a href="' + roomQueryStringURL + '" target="_blank">' + roomQueryStringURL + '</a>';
 
     var roomURLsDiv = document.getElementById('room-urls');
-    roomURLsDiv.innerHTML = html;
+    // roomURLsDiv.innerHTML = html;
 
-    roomURLsDiv.style.display = 'block';
+//     roomURLsDiv.style.display = 'block';
 }
 
 (function() {
